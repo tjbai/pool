@@ -1,5 +1,5 @@
 //@ts-check
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button, Image, Box } from "@chakra-ui/react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/clientApp";
 import { useRouter } from "next/router";
@@ -7,8 +7,6 @@ import { useRouter } from "next/router";
 export default function Home() {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const router = useRouter();
-
-  console.log(user);
 
   const handleClick = async () => {
     await signInWithGoogle();
@@ -18,7 +16,7 @@ export default function Home() {
   return (
     <Flex flex={1} bg="def.400" height="100vh">
       <Flex
-        flex={2}
+        flex={3}
         justify="center"
         align="flex-start"
         padding="50px"
@@ -28,31 +26,32 @@ export default function Home() {
           fontWeight="bold"
           fontStyle="italic"
           color="white"
-          fontSize={{ md: "6vw", base: "50pt" }}
+          fontSize={{ md: "8vw", base: "50pt" }}
+          mb={{ base: "60px", md: "40px" }}
+          height="8vw"
         >
-          Pool.it
+          Pool
         </Text>
         <Text
           fontStyle="italic"
           color="white"
           fontWeight="bold"
-          fontSize="1.5vw"
+          fontSize="1.6vw"
           mb="20px"
           display={{ base: "none", md: "flex" }}
         >
-          Environmental and financially-conscious ridesharing, made easy
+          Environmentally-conscious ridesharing, made easy
         </Text>
         <Button
           borderRadius="20px"
-          bg="def.400"
+          bg="white"
           border="2px solid white"
-          color="white"
+          color="def.400"
           transition="0.3s"
           _hover={{
-            bg: "white",
-            color: "def.400",
+            bg: "def.400",
+            color: "white",
           }}
-          padding="5px"
           width={{ base: "200px", md: "20%" }}
           fontSize={{ base: "12pt", md: "1.2vw" }}
           isLoading={loading}
@@ -61,6 +60,17 @@ export default function Home() {
           Continue with Google
         </Button>
       </Flex>
+      <Box
+        position="absolute"
+        top={40}
+        right={10}
+        height="65%"
+        width="50%"
+        display={{ base: "none", md: "flex" }}
+        padding="50px"
+      >
+        <Image src="/homeScreen.png" objectFit="contain" />
+      </Box>
     </Flex>
   );
 }

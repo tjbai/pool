@@ -17,7 +17,7 @@ const Header = () => {
       padding="10px"
     >
       <Text fontWeight="bold" fontSize="20pt" fontStyle="italic" color="white">
-        Pool.it
+        Pool
       </Text>
     </Flex>
   );

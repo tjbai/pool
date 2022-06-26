@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 import AllRides from "./AllRides";
 import CreateRide from "./CreateRide";
 
-const RideDisplay = () => {
+const RideDisplay = ({ map }) => {
   const [user, loading, error] = useAuthState(auth);
   const [tabStateVal, setTabStateVal] = useRecoilState(tabState);
 
@@ -50,10 +50,6 @@ const RideDisplay = () => {
               color: "white",
               bg: "def.800",
             }}
-            _focus={{
-              color: "white",
-              bg: "def.800",
-            }}
             width="120px"
             borderRadius="20px"
             onClick={() => {
@@ -73,10 +69,6 @@ const RideDisplay = () => {
               bg: "white",
               color: "def.800",
             }}
-            _focus={{
-              bg: "white",
-              color: "def.800",
-            }}
             borderRadius="20px"
             onClick={() => {
               setTabStateVal("create");
@@ -87,7 +79,7 @@ const RideDisplay = () => {
         </Flex>
       </Flex>
 
-      {tabStateVal === "all" && <AllRides />}
+      {tabStateVal === "all" && <AllRides map={map} />}
       {tabStateVal === "create" && <CreateRide />}
     </Flex>
   );

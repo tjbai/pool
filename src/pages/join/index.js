@@ -1,7 +1,7 @@
 import React from "react";
 
-const SuccessModal = () => {
+const Join = () => {
   return <div>HELLO</div>;
 };
 
-export default SuccessModal;
+export default Join;

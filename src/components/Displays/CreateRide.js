@@ -62,6 +62,16 @@ const CreateRide = () => {
 
   // Handle submission of the form, add error checking and stuff here later
   const handleSubmit = async () => {
+    setLoading(true);
+    const directionsService = new google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: originRef.current.value,
+      destination: destinationRef.current.value,
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    const duration = results.routes[0].legs[0].duration.value;
+    const distance = results.routes[0].legs[0].distance.value;
+
     const newPool = {
       ...formState,
       origin: originRef.current.value,
@@ -69,11 +79,12 @@ const CreateRide = () => {
       days: [...checkedDays],
       poolCount: poolCount,
       createdAt: serverTimestamp(),
+      distance: distance,
+      duration: duration,
     };
 
-    setLoading(true);
     try {
-      const docRef = await addDoc(collection(firestore, "pool"), newPool);
+      const docRef = await addDoc(collection(firestore, "pools"), newPool);
     } catch (error) {
       console.log("Submitting form", error);
     }
@@ -127,7 +138,7 @@ const CreateRide = () => {
         </NumberInputStepper>
       </NumberInput>
 
-      <Text fontWeight="bold">Do you have a driver?</Text>
+      <Text fontWeight="bold">Can you provide transportation?</Text>
       <Select
         value={formState.hasDriver}
         onChange={handleChange}

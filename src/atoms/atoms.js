@@ -8,14 +8,21 @@ export const tabState = atom({
 export const poolState = atom({
   key: "poolState",
   default: {
-    selectedPool: null,
+    selectedRoute: null,
     pools: [],
+    isSelected: false,
   },
 });
 
 export const routesState = atom({
   key: "routesState",
+  default: [null],
+});
+
+export const modalState = atom({
+  key: "modalState",
   default: {
-    directions: [],
+    modal: false,
+    button: false,
   },
 });
