@@ -1,33 +1,28 @@
-//@ts-check
 import {
-  Flex,
-  Text,
   Button,
-  Box,
-  Stack,
+  Flex,
   Input,
-  Textarea,
+  Modal,
+  ModalContent,
+  ModalOverlay,
   Select,
+  Stack,
+  Text,
+  Textarea,
+  Icon,
 } from "@chakra-ui/react";
 import {
   DirectionsRenderer,
   GoogleMap,
   useJsApiLoader,
+  Autocomplete,
 } from "@react-google-maps/api";
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { routesState, poolState, modalState } from "../../atoms/atoms";
-import RideDisplay from "../../components/Displays/RideDisplay";
+import { modalState, poolState, routesState } from "../../atoms/atoms";
+import { GrWaypoint } from "react-icons/gr";
 import HighlightRoute from "../../components/Displays/HighlightRoute";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
+import RideDisplay from "../../components/Displays/RideDisplay";
 
 // Change to dynamic geolocation if time
 const CENTER = { lat: 42.2808, lng: -83.738 };
@@ -37,7 +32,8 @@ const Rides = () => {
   const [routesStateVal, setRoutesStateVal] = useRecoilState(routesState);
   const [poolStateVal, setPoolStateVal] = useRecoilState(poolState);
   const [modalStateVal, setModalStateVal] = useRecoilState(modalState);
-  const [modalLoading, setModalLoading] = useState(false);
+
+  const searchRef = useRef();
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
@@ -57,6 +53,10 @@ const Rides = () => {
       button: true,
     }));
     setTimeout(closeModal, 1000);
+  };
+
+  const handleSubmit = () => {
+    console.log(searchRef.current.value);
   };
 
   if (!isLoaded) {
@@ -133,7 +133,31 @@ const Rides = () => {
       </Modal>
 
       <RideDisplay map={map} />
-      <Flex overflow="scroll" flex={1}>
+      <Flex overflow="scroll" flex={1} justify="flex-end">
+        <Flex
+          position="absolute"
+          borderBottomLeftRadius="10px"
+          height="66px"
+          bg="def.800"
+          zIndex={99}
+          align="center"
+          padding="10px"
+        >
+          <Flex flex={1} mr={2}>
+            <Autocomplete>
+              <Input
+                bg="white"
+                placeholder="Take me to..."
+                width="300px"
+                display={{ base: "none", lg: "flex" }}
+                ref={searchRef}
+              />
+            </Autocomplete>
+          </Flex>
+          <Button width="40px" height="40px" borderRadius="10px" bg="white">
+            <Icon color="white" fontSize="15pt" as={GrWaypoint} />
+          </Button>
+        </Flex>
         <GoogleMap
           center={CENTER}
           zoom={15}
