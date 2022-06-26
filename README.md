@@ -1,5 +1,6 @@
 # Pool
 A solo hackathon project developed for Simplihacks 2022 under the theme "environment." 
+
 __Update:__ This project won first overall out of 400 participants!
 
 ![mergedImages](./example-images/MergedImages.png)
